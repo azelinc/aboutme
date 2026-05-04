@@ -16,6 +16,7 @@
             align-items: center;
             min-height: 100vh;
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
         .container {
             max-width: 600px;
@@ -55,9 +56,41 @@
         .contact a:hover {
             text-decoration: underline;
         }
+        /* Dark Mode Styles */
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            cursor: pointer;
+            font-family: inherit;
+            z-index: 1000;
+        }
+        body.dark-mode {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        body.dark-mode p {
+            color: #cccccc;
+        }
+        body.dark-mode .contact {
+            border-top: 1px solid #ffffff;
+        }
+        body.dark-mode .contact a {
+            color: #ffffff;
+        }
+        body.dark-mode #theme-toggle {
+            background-color: #ffffff;
+            color: #000000;
+            border: 1px solid #ffffff;
+        }
     </style>
 </head>
 <body>
+    <button id="theme-toggle">Dark Mode</button>
     <div class="container">
         <h1>Azlysyam Fauzi</h1>
         <span class="role">Instrument & Control Engineer</span>
@@ -70,5 +103,11 @@
             <a href="https://www.linkedin.com/in/azlysyam-fauzi-55a09734/">LinkedIn</a>
         </div>
     </div>
+    <script>
+        const toggleButton = document.getElementById('theme-toggle');
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    </script>
 </body>
 </html>
