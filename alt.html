@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ts Azlysyam Fauzi - Instrument & Control</title>
+    <script>
+        (function() {
+            const now = new Date();
+            const localMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const dayCount = Math.floor(localMidnight.getTime() / (1000 * 60 * 60 * 24));
+            const expected = (dayCount % 2 === 0) ? 'home.html' : 'alt.html';
+            const current = window.location.pathname.split('/').pop() || 'home.html';
+            if (current !== expected) {
+                window.location.replace(expected);
+            }
+        })();
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0b0f19;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            z-index: 0;
+        }
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: 0;
+            animation: float 10s ease-in-out infinite;
+        }
+        .orb-1 { width: 300px; height: 300px; background: #f59e0b; top: -100px; right: -50px; animation-delay: 0s; }
+        .orb-2 { width: 200px; height: 200px; background: #3b82f6; bottom: -50px; left: -50px; animation-delay: -5s; }
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30px, 20px); }
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 60px;
+            align-items: center;
+            padding: 40px;
+        }
+        @media (max-width: 700px) {
+            .container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+        }
+        .content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            background: linear-gradient(to right, #f8fafc, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+        @media (max-width: 700px) {
+            .content h1 { font-size: 2.5rem; }
+        }
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 999px;
+            margin-bottom: 24px;
+        }
+        .description {
+            font-size: 1.125rem;
+            color: #94a3b8;
+            line-height: 1.7;
+            max-width: 420px;
+        }
+        @media (max-width: 700px) {
+            .description { margin: 0 auto; }
+        }
+        .links {
+            margin-top: 40px;
+            display: flex;
+            gap: 16px;
+        }
+        @media (max-width: 700px) {
+            .links { justify-content: center; }
+        }
+        .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: #f59e0b;
+            color: #0b0f19;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .links a:hover {
+            background: #fbbf24;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.4);
+        }
+        .links a.secondary {
+            background: transparent;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+        }
+        .links a.secondary:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: #475569;
+            box-shadow: none;
+        }
+        .dial-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 700px) {
+            .dial-container { margin: 0 auto; width: 200px; height: 200px; }
+        }
+        .dial-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid rgba(245, 158, 11, 0.15);
+        }
+        .dial-needle {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to top, transparent 40%, #f59e0b 40%);
+            transform-origin: bottom center;
+            bottom: 50%;
+            left: 50%;
+            margin-left: -1px;
+            transform: rotate(-45deg);
+            animation: needleSwing 4s ease-in-out infinite alternate;
+            border-radius: 2px;
+        }
+        @keyframes needleSwing {
+            from { transform: rotate(-60deg); }
+            to { transform: rotate(60deg); }
+        }
+        .dial-center {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1e293b, #0f172a);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        @media (max-width: 700px) {
+            .dial-center { width: 150px; height: 150px; }
+        }
+        .dial-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #f59e0b;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+        @media (max-width: 700px) {
+            .dial-value { font-size: 2.2rem; }
+        }
+        .dial-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-top: 8px;
+        }
+        .status-bar {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 32px;
+            z-index: 1;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(4px);
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    
+    <div class="container">
+        <div class="content">
+            <div class="badge">Instrument & Control</div>
+            <h1>Azlysyam<br>Fauzi</h1>
+            <p class="description">
+                Ensuring operational reliability and safety through precision instrumentation and control systems.
+            </p>
+            <div class="links">
+                <a href="mailto:azlysyam@gmail.com">Email</a>
+                <a href="https://www.linkedin.com/in/azlysyam-fauzi-55a09734/" class="secondary">LinkedIn</a>
+            </div>
+        </div>
+        
+        <div class="dial-container">
+            <div class="dial-ring"></div>
+            <div class="dial-needle"></div>
+            <div class="dial-center">
+                <div class="dial-value">100%</div>
+                <div class="dial-label">Reliability</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-dot"></div>
+            <span>System Online</span>
+        </div>
+        <div class="status-item">
+            <span>UTC <span id="utc-time">--:--</span></span>
+        </div>
+    </div>
+    
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const m = String(now.getUTCMinutes()).padStart(2, '0');
+            document.getElementById('utc-time').textContent = h + ':' + m;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
