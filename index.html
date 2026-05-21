@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Azlysyam Fauzi</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
     <script>
         (function() {
             const now = new Date();
@@ -17,18 +18,46 @@
         body {
             margin: 0;
             background: #0b0f19;
-            color: #64748b;
+            color: #e2e8f0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             font-size: 0.9rem;
             letter-spacing: 0.05em;
         }
+        .loader {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(245, 158, 11, 0.2);
+            border-top-color: #f59e0b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 24px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .fallback { margin-top: 32px; opacity: 0; animation: fadeIn 0.5s 2s forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .fallback a {
+            color: #f59e0b;
+            text-decoration: none;
+            margin: 0 12px;
+            padding: 8px 20px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .fallback a:hover { background: rgba(245, 158, 11, 0.1); }
     </style>
 </head>
 <body>
+    <div class="loader"></div>
     <p>Initializing...</p>
+    <div class="fallback">
+        <a href="home.html">Light Mode</a>
+        <a href="alt.html">Dark Mode</a>
+    </div>
 </body>
 </html>

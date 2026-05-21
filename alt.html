@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ts Azlysyam Fauzi - Instrument & Control</title>
+    <title>Ts Azlysyam Fauzi - Instrument &amp; Control Professional</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
     <script>
         (function() {
             const now = new Date();
@@ -97,6 +98,15 @@
             border-radius: 999px;
             margin-bottom: 24px;
         }
+        @media (max-width: 700px) {
+            .badge {
+                font-size: 0.7rem;
+                padding: 6px 14px;
+                letter-spacing: 0.1em;
+                max-width: 100%;
+                word-break: break-word;
+            }
+        }
         .description {
             font-size: 1.125rem;
             color: #94a3b8;
@@ -104,7 +114,7 @@
             max-width: 420px;
         }
         @media (max-width: 700px) {
-            .description { margin: 0 auto; }
+            .description { margin: 0 auto; font-size: 1rem; }
         }
         .links {
             margin-top: 40px;
@@ -149,6 +159,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
         }
         @media (max-width: 700px) {
             .dial-container { margin: 0 auto; width: 200px; height: 200px; }
@@ -158,6 +169,10 @@
             inset: 0;
             border-radius: 50%;
             border: 2px solid rgba(245, 158, 11, 0.15);
+            transition: border-color 0.3s;
+        }
+        .dial-container:hover .dial-ring {
+            border-color: rgba(245, 158, 11, 0.4);
         }
         .dial-needle {
             position: absolute;
@@ -169,12 +184,8 @@
             left: 50%;
             margin-left: -1px;
             transform: rotate(-45deg);
-            animation: needleSwing 4s ease-in-out infinite alternate;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 2px;
-        }
-        @keyframes needleSwing {
-            from { transform: rotate(-60deg); }
-            to { transform: rotate(60deg); }
         }
         .dial-center {
             width: 180px;
@@ -254,7 +265,7 @@
     
     <div class="container">
         <div class="content">
-            <div class="badge">Instrument & Control | Production Operations | Measurement System | OT Cybersecurity</div>
+            <div class="badge">Instrument &amp; Control | Production Operations | Measurement | OT Cybersecurity</div>
             <h1>Azlysyam<br>Fauzi</h1>
             <p class="description">
                 Ensuring operational reliability and safety through precision instrumentation and control systems.
@@ -265,12 +276,12 @@
             </div>
         </div>
         
-        <div class="dial-container">
+        <div class="dial-container" id="dial">
             <div class="dial-ring"></div>
-            <div class="dial-needle"></div>
+            <div class="dial-needle" id="needle"></div>
             <div class="dial-center">
-                <div class="dial-value">100%</div>
-                <div class="dial-label">Reliability</div>
+                <div class="dial-value" id="gaugeValue">15+</div>
+                <div class="dial-label" id="gaugeLabel">Years Exp.</div>
             </div>
         </div>
     </div>
@@ -294,6 +305,28 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+
+        // Interactive gauge - cycles through real metrics on click
+        const metrics = [
+            { value: '15+', label: 'Years Exp.', angle: -30 },
+            { value: 'IEC', label: 'Certified', angle: 30 },
+            { value: '99.9%', label: 'Uptime', angle: 60 },
+            { value: '100%', label: 'Reliability', angle: -45 }
+        ];
+        let metricIndex = 0;
+        
+        document.getElementById('dial').addEventListener('click', function() {
+            metricIndex = (metricIndex + 1) % metrics.length;
+            const m = metrics[metricIndex];
+            document.getElementById('gaugeValue').textContent = m.value;
+            document.getElementById('gaugeLabel').textContent = m.label;
+            document.getElementById('needle').style.transform = 'rotate(' + m.angle + 'deg)';
+        });
+
+        // Initial needle animation on load
+        setTimeout(() => {
+            document.getElementById('needle').style.transform = 'rotate(-30deg)';
+        }, 500);
     </script>
 </body>
 </html>

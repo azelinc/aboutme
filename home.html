@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ts Azlysyam Fauzi - All About Me</title>
+    <title>Ts Azlysyam Fauzi - Instrument &amp; Control Professional</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
     <script>
         (function() {
             const now = new Date();
@@ -28,7 +29,7 @@
             align-items: center;
             min-height: 100vh;
             line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.5s ease, color 0.5s ease;
             overflow-x: hidden;
             position: relative;
         }
@@ -47,9 +48,9 @@
             text-align: center;
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.85);
             border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
         .ecg-container {
             width: 100%;
@@ -85,10 +86,11 @@
         .role {
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 2px;
             margin-bottom: 20px;
             display: block;
+            color: #64748b;
         }
         .contact {
             margin-top: 40px;
@@ -100,10 +102,20 @@
             text-decoration: none;
             margin: 0 15px;
             font-weight: 500;
+            transition: opacity 0.2s;
         }
         .contact a:hover {
-            text-decoration: underline;
+            opacity: 0.6;
         }
+        .toggle-hint {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 20px;
+            opacity: 0;
+            animation: showHint 1s 3s forwards;
+        }
+        @keyframes showHint { to { opacity: 1; } }
+        /* Dark mode */
         body.dark-mode {
             background-color: #000000;
             color: #ffffff;
@@ -112,7 +124,8 @@
             opacity: 0.2;
         }
         body.dark-mode .container {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
+            box-shadow: 0 4px 30px rgba(255, 255, 255, 0.05);
         }
         body.dark-mode p {
             color: #cccccc;
@@ -126,6 +139,12 @@
         body.dark-mode .ecg-svg {
             stroke: #ffffff;
         }
+        body.dark-mode .role {
+            color: #94a3b8;
+        }
+        body.dark-mode .toggle-hint {
+            color: #64748b;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +156,7 @@
             </svg>
         </div>
         <h1>Azlysyam Fauzi</h1>
-        <span class="role">Instrument & Control | Production Operations | Measurement System | OT Cybersecurity</span>
+        <span class="role">Instrument &amp; Control | Production Operations | Measurement System | OT Cybersecurity</span>
         <p>
             Ensuring operational reliability and safety through precision instrumentation and control systems.
         </p>
@@ -145,11 +164,13 @@
             <a href="mailto:azlysyam@gmail.com">Email</a>
             <a href="https://www.linkedin.com/in/azlysyam-fauzi-55a09734/">LinkedIn</a>
         </div>
+        <p class="toggle-hint">Auto dark mode enabled — toggles every 30 seconds</p>
     </div>
     <script>
+        // Slower toggle: 30 seconds instead of 10
         setInterval(() => {
             document.body.classList.toggle('dark-mode');
-        }, 10000);
+        }, 30000);
 
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
